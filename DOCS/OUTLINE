@@ -1,0 +1,26 @@
+OUTLINE FOR SIMULATOR GAME (OpenLife)
+
+1 Libraries
+Irrlicht	3D graphics
+irrKlang(?)	sounds
+
+2 Game Engine (C++)
+LifeBase
+
+3 Application Scripts (Stackless Python)
+Person
+Objects
+Processes/Events (Time/Weather(?)/Rare events/etc)
+Automated tasks (User scripts)
+
+* interface	-> managed by
+* input		-> GE, IrrL or Python?
+ __________________________
+( .GREEN THREADS.|.|.|.|.|.)
+( .|.|.|.|.|.|.|.|.|.|.|.|.)
+( .|.|.|.|.|.|.|.|.|.|.|.|.)
+(                          )
+(       PYTHON SCRIPT      )
+(__________________________)
+[________GAME ENGINE_______]
+[IRRLICHT] [OTHER LIBRARIES]
