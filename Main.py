@@ -1,7 +1,9 @@
 #!./stackless-26-export/python
 #OpenLife game engine (Python)
 #Version: (see DOCS/VERSION)
-ver = (0, 0, 0, 'a')
+
+def Info():
+    return dict(ver=(0, 0, 0, 'a'))
 
 if __name__ != '__main__':
     raise ImportError("Not a module: to run the game, use './run'")
@@ -11,6 +13,8 @@ import stackless
 import math
 import sys
 import random
+from RenderText import Render
+#from Render import Render
 
 class Gender:
     def __init__(self, name):
@@ -98,17 +102,29 @@ class Deamon(object):
 
 def kernel():
     print "MAIN"
-    stackless.schedule()
-    stackless.schedule()
+    renderChan = stackless.channel()
+    renderTasklet = stackless.tasklet(runrender)(renderChan)
+    stackless.run()
+    while True:
+        if renderChan.balance > 0:
+            msg = renderChan.receive().split()
+            try:
+                if msg[0] == 'KILL':
+                    if msg[1] == '*':
+                        renderTasklet.kill()
+                        break
+                if msg[0] == 'SEND':
+                    if msg[1] == 'INFO':
+                        renderChan.send(Info())
+                    elif msg[1] == 'UPDATE':
+                        renderChan.send('Update: nothing happened.')
+            except:
+               pass
+        stackless.schedule()
     print Deamon(p=3, q='z').__dict__
     print Deamon(p=3, q='z')
     print Deamon(p=3, info='z')
     print "END_OF_MAIN"
-
-def printSome(a):
-    print "Whoa", a
-    stackless.schedule()
-    print "Flr", a
 
 def runperson(person, chan):
     pass
@@ -119,10 +135,18 @@ def runobject(object, chan):
 def rundeamon(deamon, chan):
     pass
 
-def main():
-    stackless.tasklet(kernel)()
-    for i in xrange(30):
-        stackless.tasklet(printSome)(i)
-    stackless.run()
+def runrender(chan):
+    render = Render(chan)
+    if render.callonce:
+        render()
+        #if r == -1: #Quit
+        #    return -1
+    else:
+        while True:
+            render()
+            stackless.schedule()
 
-main()
+def init():
+    kernel()
+
+init()
