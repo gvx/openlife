@@ -1,6 +1,6 @@
 h2. OpenLife
 
-A game. You need "Stackless":http://www.stackless.org to run it.
+A game. You need "Stackless":http://www.stackless.com to run it.
 
 Description following later.
 
