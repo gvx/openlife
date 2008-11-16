@@ -88,7 +88,7 @@ class FamilyTree:
 class Object:
     pass
 
-class Deamon(object):
+class Daemon(object):
     """A "process" running in the background, to maintain important things, that are not always visible.
 
     Meant to be subclassed."""
@@ -98,7 +98,7 @@ class Deamon(object):
         if 'info' in self.__dict__:
             return self.__dict__['info']
         else:
-            return 'DEAMON'
+            return 'DAEMON'
 
 def kernel():
     print "MAIN"
@@ -121,9 +121,9 @@ def kernel():
             except:
                pass
         stackless.schedule()
-    print Deamon(p=3, q='z').__dict__
-    print Deamon(p=3, q='z')
-    print Deamon(p=3, info='z')
+    print Daemon(p=3, q='z').__dict__
+    print Daemon(p=3, q='z')
+    print Daemon(p=3, info='z')
     print "END_OF_MAIN"
 
 def runperson(person, chan):

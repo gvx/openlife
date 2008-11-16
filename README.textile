@@ -1,8 +1,8 @@
 h2. OpenLife
 
-A game. You need "Stackless":http://www.stackless.com to run it.
+An extensible people simulation game. You need "Stackless":http://www.stackless.com to run it.
 
-Description following later.
+Description following later. For more information see the "GitHub Wiki":http://github.com/gvx/openlife/wikis
 
 h3. Some header
 
