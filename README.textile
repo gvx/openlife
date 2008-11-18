@@ -2,8 +2,8 @@ h2. OpenLife
 
 An extensible people simulation game. You need "Stackless":http://www.stackless.com to run it.
 
-Description following later. For more information see the "GitHub Wiki":http://github.com/gvx/openlife/wikis
+OpenLife is written in Python, and uses the "Tasklet":http://www.stackless.com/wiki/Tasklets functionality of Stackless Python. For more information see the "GitHub Wiki":http://github.com/gvx/openlife/wikis. The game engine and other functionality are separated from the graphics engine (a "Renderer", which also handles player input)
 
-h3. Some header
+h3. Objective
 
-Some text
+None. With OpenLife, the player determines their own goal.
