@@ -1,9 +1,21 @@
 #!./stackless-26-export/python
 #OpenLife game engine (Python)
-#Version: (see DOCS/VERSION)
 
-def Info():
-    return dict(ver=(0, 0, 0, 'a'))
+#This program is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+#
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#Version:
+Info = dict(ver=(0, 0, 1, 'a'))
 
 if __name__ != '__main__':
     raise ImportError("Not a module: to run the game, use './run'")
@@ -100,8 +112,12 @@ class Daemon(object):
         else:
             return 'DAEMON'
 
+DeamonList = []
+ObjectList = []
+PersonList = []
+
 def kernel():
-    print "MAIN"
+    ##print "MAIN"
     renderChan = stackless.channel()
     renderTasklet = stackless.tasklet(runrender)(renderChan)
     stackless.run()
@@ -111,20 +127,36 @@ def kernel():
             try:
                 if msg[0] == 'KILL':
                     if msg[1] == '*':
+                        for thread in DeamonList + ObjectList + PersonList:
+                            thread.kill()
                         renderTasklet.kill()
                         break
-                if msg[0] == 'SEND':
+                elif msg[0] == 'QUIT':
+                    for thread in DeamonList + ObjectList + PersonList:
+                        thread.kill()
+                    renderTasklet.kill()
+                    break
+                elif msg[0] == 'SEND':
                     if msg[1] == 'INFO':
-                        renderChan.send(Info())
+                        renderChan.send(Info)
                     elif msg[1] == 'UPDATE':
-                        renderChan.send('Update: nothing happened.')
+                        if msg[2] == 'NOW':
+                            renderChan.send('Update: nothing happened.')
+                        elif msg[2] == 'CHANGES':
+                            renderChan.send('Update: nothing happened.')
+                        else:
+                            renderChan.send('Update: nothing happened.')
+                elif msg[0] == 'LOAD':
+                    pass #load from msg[1]
+                elif msg[0] == 'SAVE':
+                    pass #save to msg[1]
             except:
                pass
         stackless.schedule()
-    print Daemon(p=3, q='z').__dict__
-    print Daemon(p=3, q='z')
-    print Daemon(p=3, info='z')
-    print "END_OF_MAIN"
+    ##print Daemon(p=3, q='z').__dict__
+    ##print Daemon(p=3, q='z')
+    ##print Daemon(p=3, info='z')
+    ##print "END_OF_MAIN"
 
 def runperson(person, chan):
     pass

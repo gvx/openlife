@@ -1,4 +1,4 @@
-#OpenLife Text RenderEngine
+#A OpenLife Text RenderEngine
 #You can make your own version if you want for:
 # * 3D engines
 # * 2D graphics
@@ -15,11 +15,32 @@ class Render:
     def __call__(self):
         print "Render call"
         while True:
-             s = raw_input("# ")
-             if s == 'help':
-                 print "You're not getting any."
-             elif s == 'update':
-                 self.chan.send('SEND UPDATE')
-                 print self.chan.receive()
-             elif s == 'exit':
-                 self.chan.send('KILL *')
+            s = raw_input("# ")
+            if s == 'help':
+                print "COMMANDS:"
+                print 'help         list all commands'
+                print 'update       see all changes in the world'
+                print 'exit         exit OpenLife'
+                print 'save [File]  save game to File (default: auto.sav)'
+                print 'load [File]  load a game from File (default: auto.sav)'
+            elif s == 'update':
+                self.chan.send('SEND UPDATE CHANGES')
+                print self.chan.receive()
+            elif s == 'exit':
+                self.chan.send('KILL *')
+            elif s.split()[0] == 'save':
+                f = None
+                try:
+                    f = s.split()[1]
+                except:
+                    pass
+                if not f: f = 'auto.sav'
+                self.chan.send('SAVE ' + f)
+            elif s.split()[0] == 'load':
+                f = None
+                try:
+                    f = s.split()[1]
+                except:
+                    pass
+                if not f: f = 'auto.sav'
+                self.chan.send('LOAD ' + f)
