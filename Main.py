@@ -18,7 +18,7 @@
 Info = dict(ver=(0, 0, 1, 'a'))
 
 if __name__ != '__main__':
-    raise ImportError("Not a module: to run the game, use './run'")
+    raise ImportError("Not a module: to run the game, run it with Stackless Python")
     exit(1)
 
 import stackless
@@ -117,7 +117,6 @@ ObjectList = []
 PersonList = []
 
 def kernel():
-    ##print "MAIN"
     renderChan = stackless.channel()
     renderTasklet = stackless.tasklet(runrender)(renderChan)
     stackless.run()
@@ -153,10 +152,6 @@ def kernel():
             except:
                pass
         stackless.schedule()
-    ##print Daemon(p=3, q='z').__dict__
-    ##print Daemon(p=3, q='z')
-    ##print Daemon(p=3, info='z')
-    ##print "END_OF_MAIN"
 
 def runperson(person, chan):
     pass
@@ -171,8 +166,6 @@ def runrender(chan):
     render = Render(chan)
     if render.callonce:
         render()
-        #if r == -1: #Quit
-        #    return -1
     else:
         while True:
             render()
