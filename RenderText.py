@@ -44,3 +44,5 @@ class Render:
                     pass
                 if not f: f = 'auto.sav'
                 self.chan.send('LOAD ' + f)
+            elif s == 'error':
+                raise TypeError

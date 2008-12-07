@@ -1,4 +1,4 @@
-#!./stackless-26-export/python
+#!./python
 #OpenLife game engine (Python)
 
 #This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ import math
 import sys
 import random
 from RenderText import Render
+import ext as ext
 #from Render import Render
 
 class Gender:
@@ -104,7 +105,7 @@ class Daemon(object):
     """A "process" running in the background, to maintain important things, that are not always visible.
 
     Meant to be subclassed."""
-    def __init__(self, **kwargs):
+    def __init__(self, kwargs):
         self.__dict__ = kwargs
     def __str__(self):
         if 'info' in self.__dict__:
@@ -112,13 +113,15 @@ class Daemon(object):
         else:
             return 'DAEMON'
 
-DeamonList = []
+DaemonList = []
 ObjectList = []
 PersonList = []
 
 def kernel():
     renderChan = stackless.channel()
     renderTasklet = stackless.tasklet(runrender)(renderChan)
+    deamonTasklets = [stackless.tasklet(rundaemon)(Daemon(module.DICT), None)
+                                                    for module in ext.__all__]
     stackless.run()
     while True:
         if renderChan.balance > 0:
@@ -126,12 +129,12 @@ def kernel():
             try:
                 if msg[0] == 'KILL':
                     if msg[1] == '*':
-                        for thread in DeamonList + ObjectList + PersonList:
+                        for thread in DaemonList + ObjectList + PersonList:
                             thread.kill()
                         renderTasklet.kill()
                         break
                 elif msg[0] == 'QUIT':
-                    for thread in DeamonList + ObjectList + PersonList:
+                    for thread in DaemonList + ObjectList + PersonList:
                         thread.kill()
                     renderTasklet.kill()
                     break
@@ -159,8 +162,8 @@ def runperson(person, chan):
 def runobject(object, chan):
     pass
 
-def rundeamon(deamon, chan):
-    pass
+def rundaemon(daemon, chan):
+    daemon.run()
 
 def runrender(chan):
     render = Render(chan)
