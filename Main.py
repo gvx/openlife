@@ -18,7 +18,7 @@
 Info = dict(ver=(0, 0, 1, 'a'))
 
 if __name__ != '__main__':
-    raise ImportError("Not a module: to run the game, run it with Stackless Python")
+    raise ImportError("Not a module: to run the game, run it with Stackless Python.")
     exit(1)
 
 import stackless
@@ -26,7 +26,8 @@ import math
 import sys
 import random
 from RenderText import Render
-import ext as ext
+import ext
+import os.path
 #from Render import Render
 
 class Gender:
@@ -36,6 +37,8 @@ class Gender:
         return "Gender('" + self.__doc__ + "')"
     def __str__(self):
         return self.__doc__
+    def __eq__(self, other):
+        return self.__doc__ == other.__doc__
 
 Male = Gender('Male')
 Female = Gender('Female')
@@ -163,6 +166,8 @@ def runobject(object, chan):
     pass
 
 def rundaemon(daemon, chan):
+    daemon.init(chan)
+    stackless.schedule()
     daemon.run()
 
 def runrender(chan):
@@ -174,7 +179,27 @@ def runrender(chan):
             render()
             stackless.schedule()
 
+def opendata(arglist, mode='r'):
+    if arglist.__class__ is str: arglist = [arglist]
+    return open(os.path.join('dat', *arglist), mode)
+
+def init_names():
+    f = opendata('namelist.txt')
+    mode = None
+    global NameData
+    NameData = {'MALE': [], 'FEMALE': [], 'FAMILY': []}
+    try:
+        for line in f:
+            if line.endswith('\n'): line = line[:-1]
+            if line in NameData:
+                mode = line
+            else:
+                NameData[mode].append(line)
+    finally:
+        f.close
+
 def init():
+    init_names()
     kernel()
 
 init()
