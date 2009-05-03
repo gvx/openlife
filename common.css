@@ -1,0 +1,41 @@
+strong.title
+{
+	font-size: xx-large;
+}
+
+em.title
+{
+	font-size: small;
+}
+
+p.footnotes
+{
+	font-size: x-small;
+}
+
+a.footnotelink
+{
+	font-size: x-small;
+	text-decoration: none;
+}
+
+a.gh
+{
+	color: #444466;
+}
+
+a.gh:hover
+{
+	text-decoration: none;
+}
+
+p.links
+{
+	font-size: small;
+}
+
+#container
+{
+	margin: 0 auto;
+	width: 600px;
+}
