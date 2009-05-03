@@ -26,8 +26,6 @@ class Render:
             elif s == 'update':
                 self.chan.send('SEND UPDATE CHANGES')
                 print self.chan.receive()
-            elif s == 'exit':
-                self.chan.send('KILL *')
             elif s.split()[0] == 'save':
                 f = None
                 try:
