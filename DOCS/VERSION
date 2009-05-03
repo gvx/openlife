@@ -1,0 +1,7 @@
+One of the first lines in the main Python code is the version tuple:
+ver = (0, 0, 0, 'a')
+
+The meaning of the first three numbers is obvious (if it's not, ask someone).
+The 'a' means Alpha -- meaning instable, incomplete, not ready for anyone to run. Other values:
+'b': Beta, it does something, but is still not quite ready for public use.
+If the letter is absent, it is a final release.

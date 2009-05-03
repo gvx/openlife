@@ -1,0 +1,15 @@
+MALE
+John
+Jimmy
+James
+Ted
+FEMALE
+Jane
+Sue
+Lizzy
+Alison
+FAMILY
+Doe
+Johnson
+Smith
+Wallace
